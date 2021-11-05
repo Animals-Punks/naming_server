@@ -1,9 +1,10 @@
-import { EntityRepository, UpdateResult } from 'typeorm';
+import { EntityRepository } from 'typeorm';
 import { BaseRepository } from 'typeorm-transactional-cls-hooked';
 
 import {
     INftNameRepository,
-    InputInsertNftName,
+    InsertNftNameInput,
+    DeleteNftNameInput,
 } from '@nftName/domain/interfaces/repository/nftName-repository.interface';
 import { NftName } from '@nftName/domain/models/nftName.entity';
 
@@ -22,14 +23,56 @@ export class NftNameRepository
     }
 
     async insertNftName(
-        inputInsertNftName: InputInsertNftName
-    ): Promise<UpdateResult> {
-        const nftName = await this.update(
-            {
-                url: inputInsertNftName.url,
+        insertNftNameInput: InsertNftNameInput
+    ): Promise<NftName> {
+        // const nftName = await this.update(
+        //     {
+        //         url: inputInsertNftName.url,
+        //     },
+        //     { name: inputInsertNftName.apName }
+        // );
+
+        const nftNameInfo = await this.findOne({
+            where: {
+                url: insertNftNameInput.url,
             },
-            { name: inputInsertNftName.apName }
-        );
-        return nftName;
+        });
+
+        const nftName = {
+            id: nftNameInfo.id,
+            name: nftNameInfo.name,
+            url: nftNameInfo.url,
+            createdAt: nftNameInfo.createdAt,
+            updatedAt: new Date(),
+        };
+
+        const updateNftName = await this.save({
+            ...nftName,
+        });
+
+        return updateNftName;
+    }
+
+    async deleteNftName(
+        deleteNftNameInput: DeleteNftNameInput
+    ): Promise<NftName> {
+        const nftNameInfo = await this.findOne({
+            where: {
+                url: deleteNftNameInput.url,
+            },
+        });
+
+        const nftName = {
+            id: nftNameInfo.id,
+            name: null,
+            url: nftNameInfo.url,
+            createdAt: nftNameInfo.createdAt,
+            updatedAt: new Date(),
+        };
+
+        const deleteNftName = await this.save({
+            ...nftName,
+        });
+        return deleteNftName;
     }
 }

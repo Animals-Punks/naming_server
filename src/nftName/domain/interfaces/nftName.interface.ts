@@ -9,6 +9,18 @@ export interface InsertNftNameDataData {
     apName: string;
 }
 
+export interface InserNftNameDataReturn {
+    isUpdate: boolean;
+}
+
+export interface DeleteNftNameData {
+    nftNumber: number;
+}
+
+export interface DeletNftNameReturn {
+    isDelete: boolean;
+}
+
 export interface INftNameService {
     healthCheck(): string;
     getNftNameInfo(
@@ -16,5 +28,8 @@ export interface INftNameService {
     ): Promise<NftName>;
     insertNftName(
         insertNftNameDataData: InsertNftNameDataData
-    ): Promise<boolean>;
+    ): Promise<InserNftNameDataReturn>;
+    deleteNftName(
+        deleteNftNameData: DeleteNftNameData
+    ): Promise<DeletNftNameReturn>;
 }

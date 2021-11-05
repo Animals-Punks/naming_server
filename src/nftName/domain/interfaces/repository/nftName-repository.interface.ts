@@ -1,15 +1,16 @@
-import { UpdateResult } from 'typeorm';
-
 import { NftName } from '@nftName/domain/models/nftName.entity';
 
-export interface InputInsertNftName {
+export interface InsertNftNameInput {
     apName: string;
+    url: string;
+}
+
+export interface DeleteNftNameInput {
     url: string;
 }
 
 export interface INftNameRepository {
     getNftNameInfoByUrl(nftUrl: string): Promise<NftName>;
-    insertNftName(
-        inputInsertNftName: InputInsertNftName
-    ): Promise<UpdateResult>;
+    insertNftName(inputInsertNftName: InsertNftNameInput): Promise<NftName>;
+    deleteNftName(deleteNftNameInput: DeleteNftNameInput): Promise<NftName>;
 }

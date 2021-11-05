@@ -1,15 +1,15 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { InsertNftNameCommand } from '@nftName/domain/commands/impl/insertNftName.command';
+import { DeleteNftNameCommand } from '@nftName/domain/commands/impl/deleteNftName.command';
 import { INftNameRepository } from '@nftName/domain/interfaces/repository/nftName-repository.interface';
 import { Nft } from '@nftName/domain/models/Nft.entity';
 import { NftName } from '@nftName/domain/models/nftName.entity';
 import { INftRepository } from '@nftName/domain/interfaces/repository/nft-repository.interface';
-import { IsUpdateNftNameDto } from '@nftName/domain/dtos/isUpdateNftName.dto';
+import { IsDeleteNftNameDto } from '@nftName/domain/dtos/isDeleteNftName.dto';
 
-@CommandHandler(InsertNftNameCommand)
-export class InsertNftNameCommandHandler implements ICommandHandler {
+@CommandHandler(DeleteNftNameCommand)
+export class DeleteNftNameCommandHandler implements ICommandHandler {
     constructor(
         @InjectRepository(NftName)
         private readonly _nftNameRepository: INftNameRepository,
@@ -18,23 +18,21 @@ export class InsertNftNameCommandHandler implements ICommandHandler {
     ) {}
 
     async execute(
-        insertNftNameData: InsertNftNameCommand
-    ): Promise<IsUpdateNftNameDto> {
+        deleteNftName: DeleteNftNameCommand
+    ): Promise<IsDeleteNftNameDto> {
         try {
-            const { _insertNftName } = insertNftNameData;
+            const { _nftNumber } = deleteNftName;
             const nftInfo = await this._nftRepository.getNftInfoByNumber(
-                _insertNftName.nftNumber
+                _nftNumber.nftNumber
             );
 
-            const updateResult = await this._nftNameRepository.insertNftName({
-                apName: _insertNftName.apName,
+            const updateResult = await this._nftNameRepository.deleteNftName({
                 url: nftInfo.imageUrl,
             });
 
-            if (updateResult.name === _insertNftName.apName)
-                return { isUpdate: true };
+            if (updateResult.name === null) return { isDelete: true };
 
-            return { isUpdate: false };
+            return { isDelete: false };
         } catch (error) {
             throw new Error(error);
         }

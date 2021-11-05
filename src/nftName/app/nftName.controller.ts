@@ -5,13 +5,15 @@ import {
     Inject,
     Param,
     Post,
-    Header,
+    Delete,
 } from '@nestjs/common';
 
 import { INftNameService } from '@nftName/domain/interfaces/nftName.interface';
 import { ReturnNftNameInfoDto } from '@nftName/domain/dtos/returnNftNameInfo.dto';
 import { NftNumberDto } from '@nftName/domain/dtos/nftNumber.dto';
-import { InsertNftNameDto } from '@nftName/domain/dtos/interNftName.dto';
+import { InsertNftNameDto } from '@nftName/domain/dtos/intertNftName.dto';
+import { IsUpdateNftNameDto } from '@nftName/domain/dtos/isUpdateNftName.dto';
+import { IsDeleteNftNameDto } from '@nftName/domain/dtos/isDeleteNftName.dto';
 
 @Controller('nftName')
 export class NftNameController {
@@ -37,7 +39,15 @@ export class NftNameController {
     async insertNftName(
         @Body()
         insertNftNameData: InsertNftNameDto
-    ): Promise<boolean> {
+    ): Promise<IsUpdateNftNameDto> {
         return await this.nftNameService.insertNftName(insertNftNameData);
+    }
+
+    @Delete()
+    async deleteNftName(
+        @Body()
+        deleteNftNameData: NftNumberDto
+    ): Promise<IsDeleteNftNameDto> {
+        return await this.nftNameService.deleteNftName(deleteNftNameData);
     }
 }

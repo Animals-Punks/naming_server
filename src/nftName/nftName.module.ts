@@ -7,6 +7,7 @@ import { NftNameService } from '@nftName/app/nftName.service';
 import { NftRepository } from '@nftName/infra/nft.repository';
 import { NftNameRepository } from '@nftName/infra/nftName.rerpository';
 import { QueryHandlers } from '@nftName/domain/queries/handlers';
+import { CommandHandlers } from '@nftName/domain/commands/handlers';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { QueryHandlers } from '@nftName/domain/queries/handlers';
             useClass: NftNameService,
         },
         ...QueryHandlers,
+        ...CommandHandlers,
     ],
 })
 export class NftNameMoudle {}
