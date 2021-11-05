@@ -16,12 +16,15 @@ export class GetNftNameInfoQueryHandler implements IQueryHandler {
         private readonly _nftRepository: INftRepository
     ) {}
 
-    async execute(nftUrl: GetNftNameInfoQuery): Promise<NftName> {
-        const { _nftUrl } = nftUrl;
-        const nftNameInfo = await this._nftNameRepository.getNftNameInfoByUrl(
-            _nftUrl.nftUrl
+    async execute(nftNumber: GetNftNameInfoQuery): Promise<NftName> {
+        const { _nftNumber } = nftNumber;
+        const nftInfo = await this._nftRepository.getNftInfoByNumber(
+            _nftNumber.nftNumber
         );
-        const nftInfo = await this._nftRepository.getNftByUrl(nftNameInfo.url);
+        const nftNameInfo = await this._nftNameRepository.getNftNameInfoByUrl(
+            nftInfo.imageUrl
+        );
+
         // const returnResult = {
         //     name: `nftInfo.apName ${nftNameInfo.name}`,
         //     image: nftInfo.imageUrl,

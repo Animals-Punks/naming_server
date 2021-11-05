@@ -1,8 +1,17 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Inject,
+    Param,
+    Post,
+    Header,
+} from '@nestjs/common';
 
 import { INftNameService } from '@nftName/domain/interfaces/nftName.interface';
-import { NftUrlDto } from '@nftName/domain/dtos/nftUrl.dto';
 import { ReturnNftNameInfoDto } from '@nftName/domain/dtos/returnNftNameInfo.dto';
+import { NftNumberDto } from '@nftName/domain/dtos/nftNumber.dto';
+import { InsertNftNameDto } from '@nftName/domain/dtos/interNftName.dto';
 
 @Controller('nftName')
 export class NftNameController {
@@ -16,10 +25,19 @@ export class NftNameController {
         return this.nftNameService.healthCheck();
     }
 
-    @Get('info')
+    @Get(':number')
     async getNftNameInfo(
-        nftNameParams: NftUrlDto
+        @Param('number')
+        nftNumberDto: NftNumberDto
     ): Promise<ReturnNftNameInfoDto> {
-        return await this.nftNameService.getNftNameInfo(nftNameParams);
+        return await this.nftNameService.getNftNameInfo(nftNumberDto);
+    }
+
+    @Post()
+    async insertNftName(
+        @Body()
+        insertNftNameData: InsertNftNameDto
+    ): Promise<boolean> {
+        return await this.nftNameService.insertNftName(insertNftNameData);
     }
 }

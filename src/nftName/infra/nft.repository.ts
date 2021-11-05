@@ -26,13 +26,4 @@ export class NftRepository
         });
         return { url: nftInfo.imageUrl };
     }
-
-    async getNftByUrl(nftUrl: string): Promise<Nft> {
-        const nftInfo = await this.findOne({
-            where: {
-                imageUrl: nftUrl,
-            },
-        });
-        return nftInfo;
-    }
 }

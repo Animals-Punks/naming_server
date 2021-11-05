@@ -2,7 +2,7 @@
 
 import { IsString } from 'class-validator';
 
-export class NftUrlDto {
+export class NftName {
     @IsString()
     readonly nftUrl: string;
 }

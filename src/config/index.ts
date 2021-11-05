@@ -5,5 +5,6 @@ _config({ path: __dirname + '/../../.env' });
 import { appConfig } from './app.config';
 
 import TypeOrmModuleConfig from './modules/typeorm';
+import CaverjsModuleConfig from './modules/caverjs';
 
-export { appConfig, TypeOrmModuleConfig };
+export { appConfig, TypeOrmModuleConfig, CaverjsModuleConfig };

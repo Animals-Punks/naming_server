@@ -1,7 +1,10 @@
-import { EntityRepository } from 'typeorm';
+import { EntityRepository, UpdateResult } from 'typeorm';
 import { BaseRepository } from 'typeorm-transactional-cls-hooked';
 
-import { INftNameRepository } from '@nftName/domain/interfaces/repository/nftName-repository.interface';
+import {
+    INftNameRepository,
+    InputInsertNftName,
+} from '@nftName/domain/interfaces/repository/nftName-repository.interface';
 import { NftName } from '@nftName/domain/models/nftName.entity';
 
 @EntityRepository(NftName)
@@ -16,5 +19,17 @@ export class NftNameRepository
             },
         });
         return nftNameInfo;
+    }
+
+    async insertNftName(
+        inputInsertNftName: InputInsertNftName
+    ): Promise<UpdateResult> {
+        const nftName = await this.update(
+            {
+                url: inputInsertNftName.url,
+            },
+            { name: inputInsertNftName.apName }
+        );
+        return nftName;
     }
 }

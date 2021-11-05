@@ -1,7 +1,7 @@
 import { IQuery } from '@nestjs/cqrs';
 
-import { NftUrlDto } from '@nftName/domain/dtos/nftUrl.dto';
+import { NftNumberDto } from '@nftName/domain/dtos/nftNumber.dto';
 
 export class GetNftNameInfoQuery implements IQuery {
-    constructor(public readonly _nftUrl: NftUrlDto) {}
+    constructor(public readonly _nftNumber: NftNumberDto) {}
 }
