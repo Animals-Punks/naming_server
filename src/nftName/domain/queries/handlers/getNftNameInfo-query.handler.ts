@@ -9,9 +9,7 @@ import { NftNameRepository } from '@nftName/infra/nftName.repository';
 import { NftRepository } from '@nftName/infra/nft.repository';
 
 @QueryHandler(GetNftInfoQuery)
-export class GetNftInfoQueryHandler
-    implements IQueryHandler<GetNftInfoQuery>
-{
+export class GetNftInfoQueryHandler implements IQueryHandler<GetNftInfoQuery> {
     constructor(
         @InjectRepository(NftNameRepository)
         private readonly _nftNameRepository: INftNameRepository,

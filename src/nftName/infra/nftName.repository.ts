@@ -33,7 +33,7 @@ export class NftNameRepository
 
         const nftName = {
             ...nftNameInfo,
-            name: insertNftNameInput.apName
+            name: insertNftNameInput.apName,
         };
         console.log(nftName);
 
@@ -55,7 +55,7 @@ export class NftNameRepository
 
         const nftName = {
             ...nftNameInfo,
-            name: null
+            name: null,
         };
 
         const deleteNftName = await this.save({

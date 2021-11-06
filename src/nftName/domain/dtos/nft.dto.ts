@@ -1,5 +1,5 @@
-import { AbstractDto } from "@common/dto/abstract.dto";
-import { IsString } from "class-validator";
+import { AbstractDto } from '@common/dto/abstract.dto';
+import { IsString } from 'class-validator';
 
 export class NftDto extends AbstractDto {
     @IsString()

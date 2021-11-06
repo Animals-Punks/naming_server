@@ -1,4 +1,10 @@
-import { Column, CreateDateColumn, Entity, Index, UpdateDateColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    Index,
+    UpdateDateColumn,
+} from 'typeorm';
 import { plainToClass } from 'class-transformer';
 import { v4 as uuidv4 } from 'uuid';
 import { randomBytes } from 'crypto';
