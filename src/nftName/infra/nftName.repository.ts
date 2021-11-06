@@ -25,13 +25,6 @@ export class NftNameRepository
     async insertNftName(
         insertNftNameInput: InsertNftNameInput
     ): Promise<NftName> {
-        // const nftName = await this.update(
-        //     {
-        //         url: inputInsertNftName.url,
-        //     },
-        //     { name: inputInsertNftName.apName }
-        // );
-
         const nftNameInfo = await this.findOne({
             where: {
                 url: insertNftNameInput.url,
@@ -39,12 +32,10 @@ export class NftNameRepository
         });
 
         const nftName = {
-            id: nftNameInfo.id,
-            name: nftNameInfo.name,
-            url: nftNameInfo.url,
-            createdAt: nftNameInfo.createdAt,
-            updatedAt: new Date(),
+            ...nftNameInfo,
+            name: insertNftNameInput.apName
         };
+        console.log(nftName);
 
         const updateNftName = await this.save({
             ...nftName,
@@ -63,11 +54,8 @@ export class NftNameRepository
         });
 
         const nftName = {
-            id: nftNameInfo.id,
-            name: null,
-            url: nftNameInfo.url,
-            createdAt: nftNameInfo.createdAt,
-            updatedAt: new Date(),
+            ...nftNameInfo,
+            name: null
         };
 
         const deleteNftName = await this.save({

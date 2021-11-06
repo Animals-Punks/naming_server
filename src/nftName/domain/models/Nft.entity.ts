@@ -1,11 +1,14 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index } from 'typeorm';
+import { plainToClass } from 'class-transformer';
+import { v4 as uuidv4 } from 'uuid';
+import { randomBytes } from 'crypto';
+
+import { AbstractEntity } from '@common/entity/abstract.entity';
+import { NftDto } from '@nftName/domain/dtos/nft.dto';
 
 @Index('nft_pkey', ['id'], { unique: true })
 @Entity('nfts', { schema: 'V2' })
-export class Nft {
-    @PrimaryGeneratedColumn('uuid', { name: 'id' })
-    id: string;
-
+export class Nft extends AbstractEntity<NftDto> {
     @Column('text', { name: 'ap_name', unique: true })
     apName: string;
 
@@ -32,4 +35,12 @@ export class Nft {
 
     @Column('text', { name: 'accessory' })
     accessory: string;
+
+    toDto() {
+        return plainToClass(NftDto, this);
+    }
+
+    public static generateNftId(): string {
+        return uuidv4({ random: randomBytes(16) });
+    }
 }

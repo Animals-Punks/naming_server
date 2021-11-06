@@ -1,4 +1,4 @@
-import { Nft } from '@nftName/domain/models/Nft.entity';
+import { Nft } from '@nftName/domain/models/nft.entity';
 
 export interface INftRepository {
     getNftInfoByNumber(nftNumber: number): Promise<Nft>;

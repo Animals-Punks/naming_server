@@ -12,9 +12,7 @@ import { CommandHandlers } from '@nftName/domain/commands/handlers';
 @Module({
     imports: [
         CqrsModule,
-        TypeOrmModule.forFeature([NftRepository, NftNameRepository]),
-        NftRepository,
-        NftNameRepository,
+        TypeOrmModule.forFeature([NftNameRepository, NftRepository]),
     ],
     controllers: [NftNameController],
     providers: [
@@ -22,8 +20,8 @@ import { CommandHandlers } from '@nftName/domain/commands/handlers';
             provide: 'NftNameService',
             useClass: NftNameService,
         },
-        ...QueryHandlers,
         ...CommandHandlers,
+        ...QueryHandlers,
     ],
 })
 export class NftNameMoudle {}

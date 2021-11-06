@@ -9,13 +9,14 @@ import {
 } from '@nestjs/common';
 
 import { INftNameService } from '@nftName/domain/interfaces/nftName.interface';
-import { ReturnNftNameInfoDto } from '@nftName/domain/dtos/returnNftNameInfo.dto';
 import { NftNumberDto } from '@nftName/domain/dtos/nftNumber.dto';
 import { InsertNftNameDto } from '@nftName/domain/dtos/intertNftName.dto';
 import { IsUpdateNftNameDto } from '@nftName/domain/dtos/isUpdateNftName.dto';
 import { IsDeleteNftNameDto } from '@nftName/domain/dtos/isDeleteNftName.dto';
+import { Nft } from '@nftName/domain/models/nft.entity';
+import { NftName } from '@nftName/domain/models/nftName.entity';
 
-@Controller('nftName')
+@Controller('nft')
 export class NftNameController {
     constructor(
         @Inject('NftNameService')
@@ -27,15 +28,24 @@ export class NftNameController {
         return this.nftNameService.healthCheck();
     }
 
-    @Get(':number')
-    async getNftNameInfo(
+    @Get('info/:number')
+    async getNftInfo(
         @Param('number')
-        nftNumberDto: NftNumberDto
-    ): Promise<ReturnNftNameInfoDto> {
-        return await this.nftNameService.getNftNameInfo(nftNumberDto);
+        nftNumber: number
+    ): Promise<Nft> {
+        const nft = await this.nftNameService.getNftInfo({ nftNumber });
+        return nft;
     }
 
-    @Post()
+    @Get('name/:number')
+    async getNftNameInfo(
+        @Param('number')
+        nftNumber: number
+    ): Promise<NftName> {
+        return await this.nftNameService.getNftName({ nftNumber });
+    }
+
+    @Post('name')
     async insertNftName(
         @Body()
         insertNftNameData: InsertNftNameDto
@@ -43,7 +53,7 @@ export class NftNameController {
         return await this.nftNameService.insertNftName(insertNftNameData);
     }
 
-    @Delete()
+    @Delete('name')
     async deleteNftName(
         @Body()
         deleteNftNameData: NftNumberDto

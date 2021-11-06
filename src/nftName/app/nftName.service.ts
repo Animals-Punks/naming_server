@@ -11,10 +11,12 @@ import {
     DeletNftNameReturn,
 } from '@nftName/domain/interfaces/nftName.interface';
 import { NftName } from '@nftName/domain/models/nftName.entity';
-import { GetNftNameInfoQuery } from '@nftName/domain/queries/impl/getNftNameInfo.query';
+import { GetNftInfoQuery } from '@nftName/domain/queries/impl/getNftInfo.query';
+import { GetNftNameQuery } from '@nftName/domain/queries/impl/getNftName.query';
 import { InsertNftNameCommand } from '@nftName/domain/commands/impl/insertNftName.command';
+import { DeleteNftNameCommand } from '@nftName/domain/commands/impl/deleteNftName.command';
 import { InsertDataException } from '@common/errors/http.error';
-import { DeleteNftNameCommand } from '../domain/commands/impl/deleteNftName.command';
+import { Nft } from '@nftName/domain/models/nft.entity';
 
 @Injectable()
 export class NftNameService implements INftNameService {
@@ -27,11 +29,18 @@ export class NftNameService implements INftNameService {
         return 'Server is Running 🚀';
     }
 
-    async getNftNameInfo(
+    async getNftInfo(getNftNameInfoParams: GetNftNameInfoParams): Promise<Nft> {
+        const nftInfo = await this._queryBus.execute(
+            new GetNftInfoQuery(getNftNameInfoParams)
+        );
+        return nftInfo;
+    }
+
+    async getNftName(
         getNftNameInfoParams: GetNftNameInfoParams
     ): Promise<NftName> {
         const nftNameInfo = await this._queryBus.execute(
-            new GetNftNameInfoQuery(getNftNameInfoParams)
+            new GetNftNameQuery(getNftNameInfoParams)
         );
         return nftNameInfo;
     }

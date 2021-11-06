@@ -2,22 +2,24 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { INftNameRepository } from '@nftName/domain/interfaces/repository/nftName-repository.interface';
-import { NftName } from '@nftName/domain/models/nftName.entity';
-import { GetNftNameInfoQuery } from '@nftName/domain/queries/impl/getNftNameInfo.query';
-import { Nft } from '@nftName/domain/models/Nft.entity';
+import { GetNftInfoQuery } from '@src/nftName/domain/queries/impl/getNftInfo.query';
 import { INftRepository } from '@nftName/domain/interfaces/repository/nft-repository.interface';
 import { NftNameReturnDto } from '@nftName/domain/dtos/nftNameReturn.dto';
+import { NftNameRepository } from '@nftName/infra/nftName.repository';
+import { NftRepository } from '@nftName/infra/nft.repository';
 
-@QueryHandler(GetNftNameInfoQuery)
-export class GetNftNameInfoQueryHandler implements IQueryHandler<GetNftNameInfoQuery> {
+@QueryHandler(GetNftInfoQuery)
+export class GetNftInfoQueryHandler
+    implements IQueryHandler<GetNftInfoQuery>
+{
     constructor(
-        @InjectRepository(NftName)
+        @InjectRepository(NftNameRepository)
         private readonly _nftNameRepository: INftNameRepository,
-        @InjectRepository(Nft)
+        @InjectRepository(NftRepository)
         private readonly _nftRepository: INftRepository
     ) {}
 
-    async execute(nftNumber: GetNftNameInfoQuery): Promise<NftNameReturnDto> {
+    async execute(nftNumber: GetNftInfoQuery): Promise<NftNameReturnDto> {
         const { _nftNumber } = nftNumber;
 
         const nftInfo = await this._nftRepository.getNftInfoByNumber(
@@ -26,6 +28,7 @@ export class GetNftNameInfoQueryHandler implements IQueryHandler<GetNftNameInfoQ
         const nftNameInfo = await this._nftNameRepository.getNftNameInfoByUrl(
             nftInfo.imageUrl
         );
+
         const returnResult = {
             name: nftInfo.apName,
             image: nftInfo.imageUrl,

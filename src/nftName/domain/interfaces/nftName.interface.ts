@@ -1,4 +1,5 @@
 import { NftName } from '@nftName/domain/models/nftName.entity';
+import { Nft } from '@nftName/domain/models/nft.entity';
 
 export interface GetNftNameInfoParams {
     nftNumber: number;
@@ -23,9 +24,8 @@ export interface DeletNftNameReturn {
 
 export interface INftNameService {
     healthCheck(): string;
-    getNftNameInfo(
-        getNftNameInfoParams: GetNftNameInfoParams
-    ): Promise<NftName>;
+    getNftInfo(getNftNameInfoParams: GetNftNameInfoParams): Promise<Nft>;
+    getNftName(getNftNameInfoParams: GetNftNameInfoParams): Promise<NftName>;
     insertNftName(
         insertNftNameDataData: InsertNftNameDataData
     ): Promise<InserNftNameDataReturn>;

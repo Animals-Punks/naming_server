@@ -3,17 +3,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { InsertNftNameCommand } from '@nftName/domain/commands/impl/insertNftName.command';
 import { INftNameRepository } from '@nftName/domain/interfaces/repository/nftName-repository.interface';
-import { Nft } from '@nftName/domain/models/Nft.entity';
-import { NftName } from '@nftName/domain/models/nftName.entity';
 import { INftRepository } from '@nftName/domain/interfaces/repository/nft-repository.interface';
 import { IsUpdateNftNameDto } from '@nftName/domain/dtos/isUpdateNftName.dto';
+import { NftNameRepository } from '@nftName/infra/nftName.repository';
+import { NftRepository } from '@nftName/infra/nft.repository';
 
 @CommandHandler(InsertNftNameCommand)
-export class InsertNftNameCommandHandler implements ICommandHandler<InsertNftNameCommand> {
+export class InsertNftNameCommandHandler
+    implements ICommandHandler<InsertNftNameCommand>
+{
     constructor(
-        @InjectRepository(NftName)
+        @InjectRepository(NftNameRepository)
         private readonly _nftNameRepository: INftNameRepository,
-        @InjectRepository(Nft)
+        @InjectRepository(NftRepository)
         private readonly _nftRepository: INftRepository
     ) {}
 
