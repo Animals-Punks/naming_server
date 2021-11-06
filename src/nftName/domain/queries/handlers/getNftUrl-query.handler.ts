@@ -6,7 +6,7 @@ import { INftRepository } from '@nftName/domain/interfaces/repository/nft-reposi
 import { Nft } from '@nftName/domain/models/Nft.entity';
 
 @QueryHandler(GetNftUrlQuery)
-export class GetNftUrlQueryHandler implements IQueryHandler {
+export class GetNftUrlQueryHandler implements IQueryHandler<GetNftUrlQuery> {
     constructor(
         @InjectRepository(Nft)
         private readonly _nftRepository: INftRepository

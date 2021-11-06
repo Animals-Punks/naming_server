@@ -9,7 +9,7 @@ import { INftRepository } from '@nftName/domain/interfaces/repository/nft-reposi
 import { IsUpdateNftNameDto } from '@nftName/domain/dtos/isUpdateNftName.dto';
 
 @CommandHandler(InsertNftNameCommand)
-export class InsertNftNameCommandHandler implements ICommandHandler {
+export class InsertNftNameCommandHandler implements ICommandHandler<InsertNftNameCommand> {
     constructor(
         @InjectRepository(NftName)
         private readonly _nftNameRepository: INftNameRepository,

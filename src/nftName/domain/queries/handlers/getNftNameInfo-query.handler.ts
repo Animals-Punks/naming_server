@@ -9,7 +9,7 @@ import { INftRepository } from '@nftName/domain/interfaces/repository/nft-reposi
 import { NftNameReturnDto } from '@nftName/domain/dtos/nftNameReturn.dto';
 
 @QueryHandler(GetNftNameInfoQuery)
-export class GetNftNameInfoQueryHandler implements IQueryHandler {
+export class GetNftNameInfoQueryHandler implements IQueryHandler<GetNftNameInfoQuery> {
     constructor(
         @InjectRepository(NftName)
         private readonly _nftNameRepository: INftNameRepository,

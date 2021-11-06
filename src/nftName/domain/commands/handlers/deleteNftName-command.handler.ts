@@ -9,7 +9,7 @@ import { INftRepository } from '@nftName/domain/interfaces/repository/nft-reposi
 import { IsDeleteNftNameDto } from '@nftName/domain/dtos/isDeleteNftName.dto';
 
 @CommandHandler(DeleteNftNameCommand)
-export class DeleteNftNameCommandHandler implements ICommandHandler {
+export class DeleteNftNameCommandHandler implements ICommandHandler<DeleteNftNameCommand> {
     constructor(
         @InjectRepository(NftName)
         private readonly _nftNameRepository: INftNameRepository,

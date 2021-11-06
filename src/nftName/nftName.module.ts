@@ -5,16 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { NftNameController } from '@nftName/app/nftName.controller';
 import { NftNameService } from '@nftName/app/nftName.service';
 import { NftRepository } from '@nftName/infra/nft.repository';
-import { NftNameRepository } from '@nftName/infra/nftName.rerpository';
+import { NftNameRepository } from '@nftName/infra/nftName.repository';
 import { QueryHandlers } from '@nftName/domain/queries/handlers';
 import { CommandHandlers } from '@nftName/domain/commands/handlers';
 
 @Module({
     imports: [
-        NftRepository,
-        NftNameRepository,
         CqrsModule,
         TypeOrmModule.forFeature([NftRepository, NftNameRepository]),
+        NftRepository,
+        NftNameRepository,
     ],
     controllers: [NftNameController],
     providers: [
