@@ -22,6 +22,7 @@ async function bootstrap() {
         AppModule,
         new FastifyAdapter()
     );
+    app.enableCors();
 
     try {
         app.setGlobalPrefix(`${appConfig.apiVersion}`);
