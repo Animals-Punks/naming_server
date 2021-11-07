@@ -37,9 +37,7 @@ async function bootstrap() {
             timeWindow: '1 minute',
         });
 
-        await app.listen(appConfig.port, () => {
-            console.log(`🚀 Server is listening on port ${appConfig.port}`);
-        });
+        await app.listen(appConfig.port, "0.0.0.0");
     } catch (error) {
         throw new Error(`❌ Server running Error: ${error}`);
     }
