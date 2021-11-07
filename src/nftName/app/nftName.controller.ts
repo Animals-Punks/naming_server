@@ -6,6 +6,7 @@ import {
     Param,
     Post,
     Delete,
+    Headers,
 } from '@nestjs/common';
 
 import { INftNameService } from '@nftName/domain/interfaces/nftName.interface';
