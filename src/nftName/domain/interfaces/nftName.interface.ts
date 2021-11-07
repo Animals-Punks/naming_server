@@ -26,6 +26,7 @@ export interface INftNameService {
     healthCheck(): string;
     getNftInfo(getNftNameInfoParams: GetNftNameInfoParams): Promise<Nft>;
     getNftName(getNftNameInfoParams: GetNftNameInfoParams): Promise<NftName>;
+    getOwner(nftNumber: number): Promise<string>;
     insertNftName(
         insertNftNameDataData: InsertNftNameDataData
     ): Promise<InserNftNameDataReturn>;

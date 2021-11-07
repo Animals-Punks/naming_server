@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
+const Caver = require('caver-js');
 
 import {
     INftNameService,
@@ -17,6 +18,7 @@ import { InsertNftNameCommand } from '@nftName/domain/commands/impl/insertNftNam
 import { DeleteNftNameCommand } from '@nftName/domain/commands/impl/deleteNftName.command';
 import { InsertDataException } from '@common/errors/http.error';
 import { Nft } from '@nftName/domain/models/nft.entity';
+import { CaverJsConfig } from '@src/config/modules/caverjs';
 
 @Injectable()
 export class NftNameService implements INftNameService {
@@ -43,6 +45,35 @@ export class NftNameService implements INftNameService {
             new GetNftNameQuery(getNftNameInfoParams)
         );
         return nftNameInfo;
+    }
+
+    async getOwner(nftNumber: number): Promise<string> {
+        const accessKeyId = CaverJsConfig.accessKey;
+        const secretAccessKey = CaverJsConfig.secretKey;
+
+        const options = {
+            headers: [
+                {
+                    name: 'Authorization',
+                    value:
+                        'Basic ' +
+                        Buffer.from(
+                            accessKeyId + ':' + secretAccessKey
+                        ).toString('base64'),
+                },
+                { name: 'x-chain-id', value: '8217' },
+            ],
+        };
+
+        const httpProvider = new Caver.providers.HttpProvider(
+            CaverJsConfig.endPoint,
+            options
+        );
+
+        const caver = new Caver(httpProvider);
+        const kipInstance = new caver.klay.KIP17(CaverJsConfig.tokenAddress);
+        const owner = await kipInstance.ownerOf(nftNumber);
+        return owner;
     }
 
     @Transactional()

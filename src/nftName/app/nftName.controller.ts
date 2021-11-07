@@ -6,7 +6,6 @@ import {
     Param,
     Post,
     Delete,
-    Headers,
 } from '@nestjs/common';
 
 import { INftNameService } from '@nftName/domain/interfaces/nftName.interface';
@@ -44,6 +43,14 @@ export class NftNameController {
         nftNumber: number
     ): Promise<NftName> {
         return await this.nftNameService.getNftName({ nftNumber });
+    }
+
+    @Get('owner/:number')
+    async getOwner(
+        @Param('number')
+        nftNumber: number
+    ): Promise<string> {
+        return await this.nftNameService.getOwner(nftNumber);
     }
 
     @Post('name')
