@@ -3,6 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 const Caver = require('caver-js');
 
+import { CaverJsConfig } from '@config';
 import {
     INftNameService,
     GetNftNameInfoParams,
@@ -18,7 +19,6 @@ import { InsertNftNameCommand } from '@nftName/domain/commands/impl/insertNftNam
 import { DeleteNftNameCommand } from '@nftName/domain/commands/impl/deleteNftName.command';
 import { InsertDataException } from '@common/errors/http.error';
 import { Nft } from '@nftName/domain/models/nft.entity';
-import { CaverJsConfig } from '@src/config/modules/caverjs';
 
 @Injectable()
 export class NftNameService implements INftNameService {

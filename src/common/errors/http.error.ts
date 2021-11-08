@@ -11,3 +11,9 @@ export class InsertDataException extends HttpException {
         super(message, HttpStatus.BAD_REQUEST);
     }
 }
+
+export class ExistNameException extends HttpException {
+    constructor(message: string) {
+        super(message, HttpStatus.BAD_REQUEST);
+    }
+}

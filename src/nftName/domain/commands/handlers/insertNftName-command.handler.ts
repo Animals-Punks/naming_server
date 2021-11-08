@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import { ExistNameException } from '@common/errors/http.error';
 import { InsertNftNameCommand } from '@nftName/domain/commands/impl/insertNftName.command';
 import { INftNameRepository } from '@nftName/domain/interfaces/repository/nftName-repository.interface';
 import { INftRepository } from '@nftName/domain/interfaces/repository/nft-repository.interface';
@@ -27,6 +28,16 @@ export class InsertNftNameCommandHandler
             const nftInfo = await this._nftRepository.getNftInfoByNumber(
                 _insertNftName.nftNumber
             );
+
+            const nftNameInfo =
+                await this._nftNameRepository.getNftNameInfoByUrl(
+                    nftInfo.imageUrl
+                );
+
+            if (nftNameInfo.name === _insertNftName.apName)
+                throw new ExistNameException(
+                    'Name is Exist. Please try another name.'
+                );
 
             const updateResult = await this._nftNameRepository.insertNftName({
                 apName: _insertNftName.apName,

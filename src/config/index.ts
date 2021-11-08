@@ -7,4 +7,4 @@ import { appConfig } from './app.config';
 import TypeOrmModuleConfig from './modules/typeorm';
 import { CaverJsConfig } from './modules/caverjs';
 
-export { appConfig, TypeOrmModuleConfig };
+export { appConfig, TypeOrmModuleConfig, CaverJsConfig };
