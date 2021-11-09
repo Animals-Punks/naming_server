@@ -2,7 +2,7 @@
 
 import { IsArray, IsString } from 'class-validator';
 
-import { AttributesDto } from './Attributes.dto';
+import { AttributesDto } from "@nftName/domain/dtos/Attributes.dto";
 
 export class NftNameReturnDto {
     @IsString()

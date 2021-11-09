@@ -35,7 +35,6 @@ export class NftNameRepository
             ...nftNameInfo,
             name: insertNftNameInput.apName,
         };
-        console.log(nftName);
 
         const updateNftName = await this.save({
             ...nftName,

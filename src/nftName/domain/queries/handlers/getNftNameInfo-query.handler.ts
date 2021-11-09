@@ -7,6 +7,8 @@ import { INftRepository } from '@nftName/domain/interfaces/repository/nft-reposi
 import { NftNameReturnDto } from '@nftName/domain/dtos/nftNameReturn.dto';
 import { NftNameRepository } from '@nftName/infra/nftName.repository';
 import { NftRepository } from '@nftName/infra/nft.repository';
+import { HiddenRepository } from '@nftName/infra/hidden.repository';
+import { IHiddenRepository } from '@nftName/domain/interfaces/repository/hidden-repository.interface';
 
 @QueryHandler(GetNftInfoQuery)
 export class GetNftInfoQueryHandler implements IQueryHandler<GetNftInfoQuery> {
@@ -14,7 +16,9 @@ export class GetNftInfoQueryHandler implements IQueryHandler<GetNftInfoQuery> {
         @InjectRepository(NftNameRepository)
         private readonly _nftNameRepository: INftNameRepository,
         @InjectRepository(NftRepository)
-        private readonly _nftRepository: INftRepository
+        private readonly _nftRepository: INftRepository,
+        @InjectRepository(HiddenRepository)
+        private readonly _hiddenRepository: IHiddenRepository
     ) {}
 
     async execute(nftNumber: GetNftInfoQuery): Promise<NftNameReturnDto> {
@@ -23,9 +27,34 @@ export class GetNftInfoQueryHandler implements IQueryHandler<GetNftInfoQuery> {
         const nftInfo = await this._nftRepository.getNftInfoByNumber(
             _nftNumber.nftNumber
         );
+
         const nftNameInfo = await this._nftNameRepository.getNftNameInfoByUrl(
             nftInfo.imageUrl
         );
+
+        const hidden = await this._hiddenRepository.findByUrl(nftInfo.imageUrl);
+
+        if (hidden !== undefined) {
+            const hiddenResult = {
+                name: hidden.apName,
+                image: hidden.imageUrl,
+                attributes: [
+                    {
+                        trait_type: 'hidden',
+                        value: hidden.type,
+                    },
+                    {
+                        trait_type: 'species',
+                        value: hidden.species,
+                    },
+                ],
+            };
+            if (nftNameInfo.name !== null) {
+                hiddenResult.name = `${nftInfo.apName} ${nftNameInfo.name}`;
+                return hiddenResult;
+            }
+            return hiddenResult;
+        }
 
         const returnResult = {
             name: nftInfo.apName,

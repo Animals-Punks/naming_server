@@ -53,7 +53,7 @@ export class NftNameController {
         return await this.nftNameService.getOwner(nftNumber);
     }
 
-    @Post('name')
+    @Post('customName')
     async insertNftName(
         @Body()
         insertNftNameData: InsertNftNameDto
@@ -61,7 +61,7 @@ export class NftNameController {
         return await this.nftNameService.insertNftName(insertNftNameData);
     }
 
-    @Delete('name')
+    @Delete('title')
     async deleteNftName(
         @Body()
         deleteNftNameData: NftNumberDto
